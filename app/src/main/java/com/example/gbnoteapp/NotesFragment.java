@@ -19,7 +19,6 @@ import android.widget.TextView;
 public class NotesFragment extends Fragment {
     private boolean isLandscape;
     public static final String CURRENT_NOTE = "CurrentNote";
-    private int currentPosition = 0;    // Текущая позиция (выбранный город)
     private Note currentNote;
 
     // При создании фрагмента укажем его макет
@@ -55,8 +54,8 @@ public class NotesFragment extends Fragment {
             tv.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    currentPosition = fi;
-                    showDesc(currentPosition);
+                    currentNote = new Note(fi, getResources().getStringArray(R.array.notes)[fi]);
+                    showDesc(currentNote);
                 }
             });
         }
@@ -65,7 +64,7 @@ public class NotesFragment extends Fragment {
     // Сохраним текущую позицию (вызывается перед выходом из фрагмента)
     @Override
     public void onSaveInstanceState(@NonNull Bundle outState) {
-        outState.putInt(CURRENT_NOTE, currentPosition);
+        outState.putParcelable(CURRENT_NOTE, currentNote);
         super.onSaveInstanceState(outState);
     }
 
@@ -81,27 +80,30 @@ public class NotesFragment extends Fragment {
         // Если это не первое создание, то восстановим текущую позицию
         if (savedInstanceState != null) {
             // Восстановление текущей позиции.
-            currentPosition = savedInstanceState.getInt(CURRENT_NOTE, 0);
+            currentNote = savedInstanceState.getParcelable(CURRENT_NOTE);
+        } else {
+            // Если восстановить не удалось, то сделаем объект с первым индексом
+            currentNote = new Note(0, getResources().getStringArray(R.array.notes)[0]);
         }
 
         // Если можно нарисовать рядом герб, то сделаем это
         if (isLandscape) {
-            showLandDesc(0);
+            showLandDesc(currentNote);
         }
     }
 
-    private void showDesc(int index) {
+    private void showDesc(Note currentNote) {
         if (isLandscape) {
-            showLandDesc(index);
+            showLandDesc(currentNote);
         } else {
-            showPortDesc(index);
+            showPortDesc(currentNote);
         }
     }
 
     // Показать герб в ландшафтной ориентации
-    private void showLandDesc(int index) {
+    private void showLandDesc(Note currentNote) {
         // Создаём новый фрагмент с текущей позицией для вывода герба
-        DescFragment detail = DescFragment.newInstance(index);
+        DescFragment detail = DescFragment.newInstance(currentNote);
 
         // Выполняем транзакцию по замене фрагмента
         FragmentManager fragmentManager = requireActivity().getSupportFragmentManager();
@@ -112,12 +114,12 @@ public class NotesFragment extends Fragment {
     }
 
     // Показать герб в портретной ориентации.
-    private void showPortDesc(int index) {
+    private void showPortDesc(Note currentNote) {
         // Откроем вторую activity
         Intent intent = new Intent();
         intent.setClass(getActivity(), DescActivity.class);
         // и передадим туда параметры
-        intent.putExtra(DescFragment.ARG_INDEX, index);
+        intent.putExtra(DescFragment.ARG_NOTE, currentNote);
         startActivity(intent);
     }
 }

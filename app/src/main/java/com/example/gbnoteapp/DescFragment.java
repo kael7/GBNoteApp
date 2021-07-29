@@ -12,17 +12,17 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 public class DescFragment extends Fragment {
-    public static final String ARG_INDEX = "index";
-    private int index;
+    public static final String ARG_NOTE = "note";
+    private Note note;
 
     // Фабричный метод создания фрагмента
     // Фрагменты рекомендуется создавать через фабричные методы.
-    public static DescFragment newInstance(int index) {
+    public static DescFragment newInstance(Note note) {
         DescFragment f = new DescFragment();    // создание
 
         // Передача параметра
         Bundle args = new Bundle();
-        args.putInt(ARG_INDEX, index);
+        args.putParcelable(ARG_NOTE, note);
         f.setArguments(args);
         return f;
     }
@@ -31,7 +31,7 @@ public class DescFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
-            index = getArguments().getInt(ARG_INDEX);
+            note = getArguments().getParcelable(ARG_NOTE);
         }
     }
 
@@ -45,7 +45,10 @@ public class DescFragment extends Fragment {
         // Получить из ресурсов массив указателей на изображения гербов
         TypedArray images = getResources().obtainTypedArray(R.array.coat_of_arms_imgs);
         // Выбрать по индексу подходящий
-        imageCoatOfArms.setImageResource(images.getResourceId(index, -1));
+        imageCoatOfArms.setImageResource(images.getResourceId(note.getImageIndex(), -1));
+        // Установить название города
+        TextView cityNameView = view.findViewById(R.id.textView);
+        cityNameView.setText(note.getNote_name());
         return view;
     }
 }

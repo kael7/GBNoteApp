@@ -6,25 +6,22 @@ import android.os.Parcelable;
 public class Note implements Parcelable {
     private int imageIndex;
     private String note_name;
-    private String note_desc;
+//    private String note_desc;
 
-    public Note(int imageIndex, String note_name, String note_desc) {
+    public Note(int imageIndex, String note_name) {
         this.imageIndex = imageIndex;
         this.note_name = note_name;
-        this.note_desc = note_desc;
     }
 
     protected Note(Parcel in) {
         imageIndex = in.readInt();
         note_name = in.readString();
-        note_desc = in.readString();
     }
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeInt(getImageIndex());
         dest.writeString(getNote_name());
-        dest.writeString(getNote_desc());
     }
 
     @Override
@@ -50,9 +47,5 @@ public class Note implements Parcelable {
 
     public String getNote_name() {
         return note_name;
-    }
-
-    public String getNote_desc() {
-        return note_desc;
     }
 }
