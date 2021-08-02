@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="notes">
+        <item>Москва</item>
+        <item>Санкт-Петербург</item>
+        <item>Екатеринбург</item>
+        <item>Новосибирск</item>
+        <item>Самара</item>
+    </string-array>
+
+<!--    <string-array name="notes_desc">-->
+<!--        <item>Москва описание</item>-->
+<!--        <item>Санкт-Петербург описание</item>-->
+<!--        <item>Екатеринбург описание</item>-->
+<!--        <item>Новосибирск описание</item>-->
+<!--        <item>Самара описание</item>-->
+<!--    </string-array>-->
+    <integer-array name="coat_of_arms_imgs">
+        <item>@drawable/abakan</item><!-- герб Москвы -->
+        <item>@drawable/abaza</item><!-- герб Санкт-Петербурга -->
+        <item>@drawable/adygeysk</item><!-- герб Екатеринбурга -->
+        <item>@drawable/alapaevsk</item><!-- герб Новосибирска -->
+        <item>@drawable/aznakaevo</item><!-- герб Самары -->
+    </integer-array>
+</resources>
